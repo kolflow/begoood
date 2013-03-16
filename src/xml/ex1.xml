@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE assertion SYSTEM "assertion.dtd">
+<assertion>
+    <eq>
+        <card>
+            <intersect>
+                <Rp/><R/>
+            </intersect>
+        </card>
+        <card><Rp/></card>
+    </eq>
+</assertion>

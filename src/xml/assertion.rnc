@@ -1,0 +1,49 @@
+exp-logique = and | or | not
+exp-comp-num = eq | lt | gt | ge | le | neq
+exp-comp-set = eq-set | neq-set
+exp-set = union | intersect | minus
+exp-num = card | plus | dif | times | divide | number
+set = Rp | Rn | Ru | R | Tp | Tn | Tu | Empty-set
+# la racine
+start = element assertion { exp-logique | exp-comp-num | exp-comp-set }
+# les opérateurs logiques
+and =
+    element and {
+        (exp-logique | exp-comp-num | exp-comp-set), (exp-logique | exp-comp-num | exp-comp-set)
+    }
+or =
+    element or {
+        (exp-logique | exp-comp-num | exp-comp-set), (exp-logique | exp-comp-num | exp-comp-set)
+    }
+not = element not { exp-logique | exp-comp-num | exp-comp-set }
+# les opérateurs ensemblistes
+union = element union { (exp-set | set), (exp-set | set) }
+intersect = element intersect { (exp-set | set), (exp-set | set) }
+minus = element minus { (exp-set | set), (exp-set | set) }
+card = element card { set | exp-set }
+# les opérateurs de comparaison d'ensembles
+eq-set = element eq-set { (exp-set | set), (exp-set | set) }
+neq-set = element neq-set { (exp-set | set), (exp-set | set) }
+# les opérateurs de comparaison sur numérique
+eq = element eq { exp-num, exp-num }
+lt = element lt { exp-num, exp-num }
+gt = element gt { exp-num, exp-num }
+ge = element ge { exp-num, exp-num }
+le = element le { exp-num, exp-num }
+neq = element neq { exp-num, exp-num }
+# les opérateurs numériques
+plus = element plus { exp-num, exp-num }
+dif = element dif { exp-num, exp-num }
+times = element times { exp-num, exp-num }
+divide = element divide { exp-num, exp-num }
+# les valeurs de base
+number = element number { xsd:decimal }
+# les ensembles de base
+Rp = element Rp { empty }
+Rn = element Rn { empty }
+Ru = element Ru { empty }
+R = element R { empty }
+Tp = element Tp { empty }
+Tn = element Tn { empty }
+Tu = element Tu { empty }
+Empty-set = element Empty-set { empty }

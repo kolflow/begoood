@@ -1,0 +1,155 @@
+Notes d'utilisation:
+===================
+
+Note: ce-ci n'est pas un manuel d'utilisateur, juste un petit tutoriel de dépannage initial.
+D'ailleurs, désolée d'avance pour les fautes d'ortographe :(
+Une documentation complète sera fournie dans le futur ... immédiat?
+
+
+
+Introduction:
+------------
+
+Dans le serveur REST SysTestNonReg 4 opérations HTTP sont définies: GET, POST, PUT et DELETE.
+
+- GET sert à récuperer des ressources
+- POST sert à créer des nouveaux ressources
+- PUT s'utilise ou bien pour modifier des ressources ou pour éfaccer certains (je décrirai plus tard)
+- DELETE sert à effacer des ressources
+
+Les ressources sont représentés par des URI. Les ressources basique du sysTestNonReg sont:
+ 
+- $serverName/sysTestNonReg/tests
+- $serverName/sysTestNonReg/plans
+- $serverName/sysTestNonReg/answers
+- $serverName/sysTestNonReg/asserts
+- $serverName/sysTestNonReg/reports
+
+Tout la liste de ressources disponibles se trouve sur .src/index.php
+Le serveur va répondre aux requêtes HTTP en renvoyant du code JSON.
+
+
+Ces fonctions peuvent être utilisés à travers une application HTML, ou bien en se servant de CURL.
+CURL est une interface en ligne de commande destinée à récupérer le contenu d'une ressource accessible par un réseau informatique.
+
+Par exemple pour récupérer tout les tests disponibles dans SysTestNonReg (GET) on écrit:
+
+    curl -i -H "Accept: application/json" localhost/sysTestNonReg/tests 
+
+et le résultat sera le JSON suivant :
+
+[
+{"status-t":"actif","id-t":"1","uri-t":"http://localhost/StgeV2/tests/1","label-t":"Les nombres premiers inférieurs ou egal à 20","label-q":"programme de test aléatoire","uri-q":"localhost/QueryTest/"},
+{"status-t":"actif","id-t":"2","uri-t":"http://localhost/StgeV2/tests/2","label-t":"Les nombres impairs inferieur ou egal a 20","label-q":"programme de test aléatoire","uri-q":"localhost/QueryTest/"},
+{"status-t":"actif","id-t":"3","uri-t":"localhost/sysTestNonReg/tests/3","label-t":"Les nombres pairs inferieur ou egal a 20","label-q":"programme de test aléatoire","uri-q":"localhost/QueryTest/"}
+]
+
+ou pour créer un nouveau plan de tests (POST):
+
+    curl -i -H "Accept: application/json" -X POST -d "label-p=plan de tests exemple" localhost/sysTestNonReg/plans
+
+nous renvoyant:
+
+{"label-p":"plan de tests example","exec-mod":"SET","stop-mod":"0","id-p":"3","uri-p":"localhost/SysTestNonReg/plans/3"}
+
+qui se correspond au contenu du plan qui vient d'être créé, avec identifiant id-p=3, exec-mod=SET (par default) et stop-mod=0 (par default)
+
+
+
+Mais utiliser ces opérations en ligne de commande est un peu ennuyeux, donc, en manque d'un client web (à venir) on s'est servi
+des librairies cURL pour php, pour développer un petit client.
+
+
+
+
+Utilisation de la classe Client_http (dossier curl_client)
+---------------------------------------------------------
+
+Je vais expliquer comment créer un plan de tests à l'aide des fonctions de la classe Client_http:
+
+Le premier pas c'est créer une instance de la classe Client_http:
+
+<?php
+$client = new Client_http();
+?>
+
+Pour commencer, on va créer le plan. Comme c'est une création on va utiliser la méthode POST($url) sur le ressource 'plan':
+
+$client->POST('/localhost/sysTestNonReg/plans',array('label-p' =>'plan de tests example');
+
+
+Puis on va créer des tests:
+
+$client->POST('/localhost/sysTestNonReg/tests', array('label-t' => 'Les nombres divisibles par 3 inférieurs ou égales à 20','label-q' => 'pr. aleatoire', 'uri-q'=>'localhost/QueryTest/'));
+
+$client->POST('/localhost/sysTestNonReg/tests', array('label-t' => 'Les nombres divisibles par 7 inférieurs ou égales à 20','label-q' => 'pr. aleatoire', 'uri-q'=>'localhost/QueryTest/'));
+
+
+l'exécution de ce code à juste créé un 'Plan' et deux 'Tests' mais on n'a pas encore indiqué que les tests vont appartenir au plan.
+Pour faire ça, il faut connaître les identifiants de ces éléments et lancer des nouveaux POST. (Note, s'il y avait un client WEB,
+l'ajout de tests à notre plan pourrait se faire en sélectionnant les tests d'un liste qu'on aurait antérieurement récupéré avec GET):
+
+$client->POST('/localhost/sysTestNonReg/tests/5/plans',array('id-p' => '3'));
+$client->POST('/localhost/sysTestNonReg/tests/6/plans',array('id-p' => '3'));
+
+Ce-ci va ajouter les test identifiés par 5 et 6 au plan avec id = 3.
+
+
+mais pour pouvoir lancer le plan de tests il faut aussi au moins une assertion à vérifier:
+
+$client->POST('/localhost/sysTestNonReg/assertions', array('label' => '|Rp| > 4 => Le nombre de reponses positives est supérieur a 4',
+                   'code'=>'<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE assertion SYSTEM "assertion.dtd"><assertion><gt><card><Rp/></card><number>4</number></gt></assertion>') );
+
+
+Et indiquer que cette assertion appartient à un test, par exemple au test 5:
+
+$client->POST('/localhost/sysTestNonReg/tests/5/assertions',array('id-assert' => '2'));
+
+
+On ferai la même chose pour créer les réponses associés aux tests, et donc, finalement on a créé un nouveau plan de tests
+qui est prêt à l'exécution. Pour lancer le plan de tests qu'on a créé (id-p=3) on fait:
+
+$client->POST('/localhost/sysTestNonReg/plans/3/run');
+
+ce-ci va renvoyer le contenu du rapport généré.
+
+Et si l'on voulait lancer juste un test, on ferait:
+
+$client->POST('/localhost/sysTestNonReg/tests/5/run');
+
+
+Mais, on s'est rendu compte que les tests du plan ont été lancés sans ordre, et nous voulions une exécution ordonné.
+Pour faire ce-ci il faut mettre à jour l'attribut 'exec-mod' du plan, qui avait 'SET' comme valeur à la valeur 'ORDERED'. Cela
+se fait avec un PUT.
+
+$client->PUT('/localhost/sysTestNonReg/plans/3',array('operation'=>'modification','exec-mod'=>'ORDERED')
+
+
+Et relancer l'execution:
+
+$client->POST('/localhost/sysTestNonReg/plans/3/run');
+
+
+L'autre opération de la quelle on n'a pas parlé c'est DELETE. On peut par exemple effacer un test qu'on a enregistré de
+façon erronée (le test 5 qu'on avait créé par example):
+
+$client->DELETE('/localhost/sysTestNonReg/tests/5');
+
+si l'effaçage s'est bien passé, l'appli va nous renvoyer un JSON: {"deleted:"1"}
+et {"deleted:"0"} en cas contraire.
+
+Notez que ceci va juste effacer le test du système mais les possibles liens avec les plans, answers, etc. vont rester.
+Pour effacer les liens il faudrait faire:
+
+$client->DELETE('/localhost/sysTestNonReg/tests/5/plans');
+$client->DELETE('/localhost/sysTestNonReg/tests/5/asserts');
+$client->DELETE('/localhost/sysTestNonReg/tests/5/answers');
+
+Si l'on voulait juste effacer le test 5 du plan 3, sans effacer le test (c'est une bonne idée parceque c'est
+possible que le test 5 soit utilisé par un autre plan) on ferait:
+
+$client->PUT('/localhost/sysTestNonReg/tests/5/plans',array('operation'=>'deletion','id-p'=>'5');
+
+Notez que cet effacement se fait avec un PUT au lieu d'un DELETE parcequ'il faut passer en paramètre
+l'identifiant du plan dont le lien on veut effacer, et à partir de la version 5 de HTML, l’opération
+DELETE ne peut plus envoyer de paramètres.

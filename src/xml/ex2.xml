@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="assertion.rnc" type="application/relax-ng-compact-syntax"?>
+<assertion>
+    <eq-set>
+        <union>
+            <union>
+                <Rn/>
+                <Rp/>
+            </union>
+            <R/>
+        </union>
+        <Empty-set/>
+    </eq-set>
+</assertion>

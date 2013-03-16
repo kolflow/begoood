@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!ENTITY % exp-logique "(and | or | not)" >
+<!ENTITY % exp-comp-num "(eq | lt | gt | ge | le | neq)" >
+<!ENTITY % exp-comp-set "(eq-set | neq-set)" >
+<!ENTITY % exp-set "(union | intersect | minus)" >
+<!ENTITY % exp-num "(card | plus | dif | times | divide | number)" >
+<!ENTITY % set "(Rp | Rn | Ru | R | Tp | Tn | Tu | Empty-set)" >
+
+<!-- la racine  -->
+<!ELEMENT assertion (%exp-logique;|%exp-comp-num;|%exp-comp-set;) >
+
+<!-- les opérateurs logiques -->
+<!ELEMENT and ((%exp-logique;|%exp-comp-num;|%exp-comp-set;), 
+               (%exp-logique;|%exp-comp-num;|%exp-comp-set;)) >
+<!ELEMENT or ((%exp-logique;|%exp-comp-num;|%exp-comp-set;), 
+              (%exp-logique;|%exp-comp-num;|%exp-comp-set;)) >
+<!ELEMENT not (%exp-logique;|%exp-comp-num;|%exp-comp-set;) >
+
+<!-- les opérateurs ensemblistes -->
+<!ELEMENT union ((%exp-set;|%set;), 
+                 (%exp-set;|%set;)) >
+<!ELEMENT intersect ((%exp-set;|%set;), 
+                     (%exp-set;|%set;)) >
+<!ELEMENT minus ((%exp-set;|%set;), 
+                 (%exp-set;|%set;)) >
+
+<!ELEMENT card (%set;|%exp-set;) >
+
+<!-- les opérateurs de comparaison d'ensembles -->
+<!ELEMENT eq-set ((%exp-set;|%set;), 
+                  (%exp-set;|%set;)) >
+<!ELEMENT neq-set ((%exp-set;|%set;), 
+                   (%exp-set;|%set;)) >
+
+<!-- les opérateurs de comparaison sur numérique -->
+<!ELEMENT eq (%exp-num;, %exp-num;) >
+<!ELEMENT lt (%exp-num;, %exp-num;) >
+<!ELEMENT gt (%exp-num;, %exp-num;) >
+<!ELEMENT ge (%exp-num;, %exp-num;) >
+<!ELEMENT le (%exp-num;, %exp-num;) >
+<!ELEMENT neq (%exp-num;, %exp-num;) >
+
+<!-- les opérateurs numériques -->
+<!ELEMENT plus (%exp-num;, %exp-num;) >
+<!ELEMENT dif (%exp-num;, %exp-num;) >
+<!ELEMENT times (%exp-num;, %exp-num;) >
+<!ELEMENT divide (%exp-num;, %exp-num;) >
+
+<!-- les valeurs de base -->
+<!ELEMENT number (#PCDATA) >
+
+<!-- les ensembles de base -->
+<!ELEMENT Rp EMPTY >
+<!ELEMENT Rn EMPTY >
+<!ELEMENT Ru EMPTY >
+<!ELEMENT R EMPTY >
+<!ELEMENT Tp EMPTY >
+<!ELEMENT Tn EMPTY >
+<!ELEMENT Tu EMPTY >
+<!ELEMENT Empty-set EMPTY >

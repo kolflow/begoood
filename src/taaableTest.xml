@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+-
+- phpMyAdmin XML Dump
+- version 3.2.4
+- http://www.phpmyadmin.net
+-
+- Serveur: localhost
+- Généré le : Mer 12 Décembre 2012 à 11:51
+- Version du serveur: 5.1.44
+- Version de PHP: 5.3.1
+-->
+
+<!--
+- Base de données: 'taaableTest'
+-->
+<taaableTest>
+  <!-- Table Answer -->
+    <Answer>
+        <id-a>1</id-a>
+        <uri-a>Answer1</uri-a>
+        <answer-value>Answer1</answer-value>
+    </Answer>
+  <!-- Table Assert -->
+    <Assert>
+        <id-assert>1</id-assert>
+        <uri-assert>Assert1</uri-assert>
+        <label>Assert1</label>
+        <code>Assert1</code>
+    </Assert>
+  <!-- Table concern -->
+    <concern>
+        <id-c>1</id-c>
+        <id-assert>1</id-assert>
+        <id-t>1</id-t>
+    </concern>
+  <!-- Table isComposedOf -->
+    <isComposedOf>
+        <id-i>1</id-i>
+        <id-p>1</id-p>
+        <id-t>1</id-t>
+        <order>IsComp1</order>
+    </isComposedOf>
+  <!-- Table Plan -->
+    <Plan>
+        <id-p>1</id-p>
+        <uri-p>Plan1</uri-p>
+        <label-p>Plan1</label-p>
+        <exec-mod>Plan1</exec-mod>
+        <stop-mod>Plan1</stop-mod>
+    </Plan>
+  <!-- Table Report -->
+    <Report>
+        <id-r>1</id-r>
+        <uri-r>Report1</uri-r>
+        <exec-date>0000-00-00</exec-date>
+        <content>de bon resultats : le test1 s'est bien déroulé ...</content>
+        <result>good</result>
+        <type>1</type>
+        <id-p>1</id-p>
+        <id-t>1</id-t>
+    </Report>
+  <!-- Table Test -->
+    <Test>
+        <id-t>26</id-t>
+        <uri-t>he</uri-t>
+        <label-t>j</label-t>
+        <status-t>inactif</status-t>
+        <label-q></label-q>
+        <uri-q></uri-q>
+    </Test>
+    <Test>
+        <id-t>40</id-t>
+        <uri-t>/Applications/XAMPP/xamppfiles/htdocs/Stage/Model/</uri-t>
+        <label-t>hey</label-t>
+        <status-t>inactif</status-t>
+        <label-q>hey</label-q>
+        <uri-q>hey</uri-q>
+    </Test>
+    <Test>
+        <id-t>42</id-t>
+        <uri-t>null</uri-t>
+        <label-t>prout</label-t>
+        <status-t>inactif</status-t>
+        <label-q>prout</label-q>
+        <uri-q>prout</uri-q>
+    </Test>
+    <Test>
+        <id-t>43</id-t>
+        <uri-t>null</uri-t>
+        <label-t>prout</label-t>
+        <status-t>inactif</status-t>
+        <label-q>prout</label-q>
+        <uri-q>prout</uri-q>
+    </Test>
+    <Test>
+        <id-t>44</id-t>
+        <uri-t>null</uri-t>
+        <label-t>prout</label-t>
+        <status-t>inactif</status-t>
+        <label-q>prout</label-q>
+        <uri-q>prout</uri-q>
+    </Test>
+    <Test>
+        <id-t>45</id-t>
+        <uri-t>null</uri-t>
+        <label-t>prout</label-t>
+        <status-t>inactif</status-t>
+        <label-q>prout</label-q>
+        <uri-q>prout</uri-q>
+    </Test>
+    <Test>
+        <id-t>46</id-t>
+        <uri-t>null</uri-t>
+        <label-t>prout</label-t>
+        <status-t>inactif</status-t>
+        <label-q>prout</label-q>
+        <uri-q>prout</uri-q>
+    </Test>
+    <Test>
+        <id-t>47</id-t>
+        <uri-t>null</uri-t>
+        <label-t>prout</label-t>
+        <status-t>inactif</status-t>
+        <label-q>prout</label-q>
+        <uri-q>prout</uri-q>
+    </Test>
+    <Test>
+        <id-t>48</id-t>
+        <uri-t>null</uri-t>
+        <label-t>prout</label-t>
+        <status-t>inactif</status-t>
+        <label-q>prout</label-q>
+        <uri-q>prout</uri-q>
+    </Test>
+    <Test>
+        <id-t>49</id-t>
+        <uri-t>null</uri-t>
+        <label-t>prout</label-t>
+        <status-t>inactif</status-t>
+        <label-q>prout</label-q>
+        <uri-q>prout</uri-q>
+    </Test>
+    <Test>
+        <id-t>50</id-t>
+        <uri-t>null</uri-t>
+        <label-t>prout</label-t>
+        <status-t>inactif</status-t>
+        <label-q>prout</label-q>
+        <uri-q>prout</uri-q>
+    </Test>
+    <Test>
+        <id-t>51</id-t>
+        <uri-t>null</uri-t>
+        <label-t>prout</label-t>
+        <status-t>inactif</status-t>
+        <label-q>prout</label-q>
+        <uri-q>prout</uri-q>
+    </Test>
+    <Test>
+        <id-t>52</id-t>
+        <uri-t>null</uri-t>
+        <label-t>prout</label-t>
+        <status-t>inactif</status-t>
+        <label-q>prout</label-q>
+        <uri-q>prout</uri-q>
+    </Test>
+  <!-- Table used -->
+    <used>
+        <id-u>1</id-u>
+        <id-t>1</id-t>
+        <id-a>1</id-a>
+        <generatedBy>used1</generatedBy>
+        <status-u>+</status-u>
+    </used>
+</taaableTest>
