@@ -2,7 +2,7 @@
 
 
   define ('CLASS_FILE_SUFFIX' , '.php');
-  define ('__URL__' , 'localhost/SysTestNonReg'); 
+  define ('__URL__' , 'localhost:8888/begoood'); 
  define ('INSTALLATION_DIR' , dirname(__FILE__) . DIRECTORY_SEPARATOR . '..');
  //define ('IMAGEDIR_NAME', 'images');
   

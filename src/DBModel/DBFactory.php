@@ -35,10 +35,15 @@ class DBFactory {
    
     if (!$config) throw new DBException("DBFactory::makeConnection: could not parse config file $configpath <br/>");
 
+    //$dbtype=$config['db_driver'];$host=$config['host']; $dbname=$config['dbname'];
+    //$user=$config['db_user']; $pass=$config['db_password'];
     $dbtype=$config['db_driver'];$host=$config['host']; $dbname=$config['dbname'];
     $user=$config['db_user']; $pass=$config['db_password']; 
+    $port=( (isset($config['dbport']))?$config['dbport']:null);
+    $dsn="$dbtype:host=$host;";
+    if (!empty($port)) $dsn.="port=$port;";
+    $dsn.="dbname=$dbname";
     try {
-        $dsn="$dbtype:host=$host;dbname=$dbname";
         $db = new PDO($dsn, $user,$pass, array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES \'UTF8\'',
                                                
                                                PDO::ATTR_PERSISTENT=>true   ));

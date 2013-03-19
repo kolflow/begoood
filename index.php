@@ -1,9 +1,11 @@
 <?php
 
-require 'Slim/Slim.php';
-require 'Slim/View.php';
-\Slim\Slim::registerAutoloader();
-include_once 'config/setup_app.php';
+//require 'Slim/Slim.php';
+//require 'Slim/View.php';
+//\Slim\Slim::registerAutoloader();
+
+require 'vendor/autoload.php';
+include_once 'src/config/setup_app.php';
 
 $app = new \Slim\Slim();
 $app->contentType('application/json');

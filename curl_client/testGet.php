@@ -9,7 +9,7 @@
 
 include_once 'Client_http.php';
 
-const __URL__ = 'localhost/sysTestNonReg/';
+const __URL__ = 'http://localhost:8888/begood/src/';
 
 $testClasses = ['tests','plans','answers','reports','tests/3','plans/1','asserts/1','answers/3','reports/9',
                 'tests/1/plans','tests/1/asserts','tests/1/answers','tests/1/reports','tests/2/rminus','tests/3/rundefined',
