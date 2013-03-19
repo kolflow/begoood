@@ -1,0 +1,17 @@
+Begoood is a web application written in PHP and using MySql.
+To install it : 
+ - git clone the repository in your document root
+ - create a database in your MySql server, and initialize it with the sql script
+   in db/init.sql
+ - configure the database connexion by editing src/config/config.db.ini
+ - in the root directory of the application, install packages dependencies by using
+   composer : 
+    * to get composer : curl -s https://getcomposer.org/installer | php
+    * then : php composer.phar install
+    * or, if composer is already installed in your PATH, just type : composer install
+
+
+REQUIREMENTS : 
+
+ * MySQL
+ * php 5.3.15, 5.4 recommended
